@@ -79,9 +79,14 @@ func (c *SensuCollector) Collect(ch chan<- prometheus.Metric) {
 		// in Prometheus, 1 means OK
 		status := 0.0
 		if result.Check.Status == 0 {
-			status = 1.0
-		} else {
 			status = 0.0
+		} else if result.Check.Status == 1 {
+			status = 1.0
+
+		} else if result.Check.Status == 2 {
+			status = 2.0
+		} else {
+			status = 3.0
 		}
 		ch <- prometheus.MustNewConstMetric(
 			c.CheckStatus,
