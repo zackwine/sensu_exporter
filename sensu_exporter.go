@@ -6,13 +6,15 @@ import (
 	"fmt"
 	"net/http"
 	"sync"
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/log"
 )
 
 var (
-	timeout       = flag.Duration("timeout", 20, "Timeout in seconds for the API request")
+	timeout       = flag.Duration("timeout", time.Second*40, "Timeout in seconds for the API request")
 	listenAddress = flag.String(
 		// exporter port list:
 		// https://github.com/prometheus/prometheus/wiki/Default-port-allocations
@@ -148,7 +150,7 @@ func main() {
 	fmt.Println(collector.cli.Timeout)
 	prometheus.MustRegister(collector)
 	metricPath := "/metrics"
-	http.Handle(metricPath, prometheus.Handler())
+	http.Handle(metricPath, promhttp.Handler())
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(metricPath))
 	})

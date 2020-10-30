@@ -21,7 +21,7 @@ Usage of ./sensu_exporter:
   -listen string
       Address to listen on for serving Prometheus Metrics. (default ":9251")
   -timeout duration
-      Timeout in seconds for the API request (default 20ns)
+      Timeout in seconds for the API request (default 40s)
   -cache
       Enable caching of results.  Reduces scrape time for large results datasets by pulling data between prometheus scrapes instead of blocking.
 ```
